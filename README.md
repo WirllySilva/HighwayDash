@@ -32,18 +32,22 @@ Highway Dash is a top-down endless runner racing game. The player controls a car
 - HighwayDash/
   - assets/
     - images/
+    - fonts/
     - sounds/
   - src/
-    - main.py
-    - game.py
-    - menu.py
-    - car.py
-    - obstacle.py
-    - item.py
+    - core/
+      - event_manager.py
+      - game.py
+      - menu.py
+    - entities/
+      - car.py
+      - item.py
+      - obstacle.py
     - states/
         - game_state.py
         - menu_state.py
         - pause_state.py
+    - main.py
   - build_instructions.txt
   - unl_diagram.png
   - README.md

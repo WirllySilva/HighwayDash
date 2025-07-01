@@ -1,0 +1,67 @@
+# 🚀 Build Instructions - Highway Dash
+
+These are the steps to generate a Windows executable (.exe) for the game using PyInstaller.
+
+---
+
+## 1. Install PyInstaller
+
+Make sure you are inside your virtual environment (if using one), then run:
+
+    pip install pyinstaller
+
+---
+
+## 2. Build the executable
+
+Navigate to the folder where your `main.py` is located:
+
+    cd src
+
+Now run:
+
+    pyinstaller --onefile --noconsole main.py
+
+- `--onefile`: Generates a single .exe file.
+- `--noconsole`: Prevents a black terminal window from opening when the game starts.
+
+This will create a `dist/` folder containing `main.exe`.
+
+---
+
+## 3. Copy your assets
+
+PyInstaller does **not** bundle image/sound files by default.
+
+You must manually copy the entire `assets/` folder (with all subfolders) to the same directory where the `.exe` file is.
+
+Example structure:
+
+    dist/
+    ├── main.exe
+    └── assets/
+        ├── images/
+        └── sounds/
+
+Make sure the folder structure matches what your game expects.
+
+---
+
+## 4. Run the game
+
+Double-click `main.exe` inside `dist/` to play your compiled game.
+
+---
+
+## 5. Optional: Clean up build files
+
+You can delete the `build/` and `__pycache__/` folders if you want to reduce clutter.
+
+---
+
+## 💡 Notes
+
+- All sound/image file paths in your code must be relative (e.g., `assets/images/...`)
+- If you're having issues, try running the `.exe` via CMD to see error messages.
+
+Happy building! 🚗💨

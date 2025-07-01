@@ -1,0 +1,88 @@
+@startuml HighwayDash
+
+title Highway Dash - UML (Demo Version + Observer Pattern)
+
+package core {
+  class Game {
+    - screen
+    - clock
+    - state
+    + run()
+    + change_state(state: State)
+  }
+
+  class EventManager {
+    - listeners: Dict
+    + subscribe(event_type, listener_fn)
+    + notify(event_type, data)
+  }
+}
+
+package states {
+  class State {
+    + handle_events(events)
+    + update()
+    + render(screen)
+  }
+
+  class GameState {
+    - player: Car
+    - obstacles: List<Obstacle>
+    - items: List<Item>
+    + handle_events(events)
+    + update()
+    + render(screen)
+  }
+
+  class MenuState {
+    - buttons: List
+    - selected_index: int
+    - event_manager: EventManager
+    + handle_events(events)
+    + update()
+    + render(screen)
+  }
+
+  class PauseState {
+    + handle_events(events)
+    + update()
+    + render(screen)
+  }
+}
+
+package entities {
+  class Car {
+    - x: int
+    - y: int
+    - speed: int
+    + move(direction)
+  }
+
+  class Obstacle {
+    - x: int
+    - y: int
+    - speed: int
+    + update()
+  }
+
+  class Item {
+    - x: int
+    - y: int
+    - effect: str
+    + apply_effect(car: Car)
+  }
+}
+
+' === RELATIONSHIPS ===
+Game --> State : uses
+State <|-- GameState
+State <|-- MenuState
+State <|-- PauseState
+
+GameState --> Car
+GameState --> Obstacle : uses
+GameState --> Item : uses
+
+MenuState --> EventManager : notifies
+
+@enduml

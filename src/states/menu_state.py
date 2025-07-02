@@ -1,5 +1,7 @@
 import pygame
+from states.game_state import GameState
 from core.event_manager import EventManager
+
 
 class MenuState:
     def __init__(self, game):
@@ -73,7 +75,7 @@ class MenuState:
 
                     if selected_option == "START GAME":
                         self.event_manager.notify("START_GAME")
-                        print("Starting game...")
+                        self.game.change_state(GameState(self.game))
                         # self.game.change_state(GameState(self.game))
 
                     elif selected_option == "CHOOSE MODE":

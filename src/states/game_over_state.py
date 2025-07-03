@@ -9,14 +9,20 @@ class GameOverState:
         self.mode = mode
         self.event_manager = EventManager()
 
-        self.font = pygame.font.Font("assets/fonts/PressStart2P-Regular.ttf", 24)
+        self.font = pygame.font.Font("assets/fonts/PressStart2P-Regular.ttf", 30)
         self.small_font = pygame.font.Font("assets/fonts/PressStart2P-Regular.ttf", 18)
+        self.restart_sound = pygame.mixer.Sound("assets/sounds/starting-sound.mp3")
 
         self.options = ["RESTART", "BACK TO MENU"]
         self.selected = 0
         self.show_options = False
         self.elapsed_time = 0
 
+        # Background, the same of the game_pause
+        self.background = pygame.image.load("assets/images/track-01.png").convert()
+        self.background = pygame.transform.scale(self.background, (480, 640))
+
+        # Buttons in the center
         self.button_width = 340
         self.button_height = 50
         self.button_rects = []
@@ -29,7 +35,9 @@ class GameOverState:
             rect = pygame.Rect(x, y, self.button_width, self.button_height)
             self.button_rects.append(rect)
 
+        # No sounds after gameover
         pygame.mixer.stop()
+        pygame.mixer.music.stop()
 
     def handle_events(self, events):
         if not self.show_options:
@@ -46,6 +54,7 @@ class GameOverState:
                     self.selected = (self.selected + 1) % len(self.options)
                 elif event.key == pygame.K_RETURN:
                     if self.options[self.selected] == "RESTART":
+                        self.restart_sound.play()
                         self.game.change_state(GameState(self.game, self.mode))
                     else:
                         self.game.change_state(MenuState(self.game))
@@ -53,7 +62,7 @@ class GameOverState:
     def update(self):
         if not self.show_options:
             self.elapsed_time += self.game.clock.get_time()
-            if self.elapsed_time > 3000:  # 3 seconds
+            if self.elapsed_time > 2000:  # 2 seconds
                 self.show_options = True
 
     def draw_text_with_outline(self, screen, text, pos, font, text_color, outline_color=(0, 0, 0)):
@@ -67,10 +76,16 @@ class GameOverState:
         screen.blit(label, (x, y))
 
     def render(self, screen):
-        screen.fill((255, 255, 255))
+        # background freeze
+        screen.blit(self.background, (0, 0))
 
-        self.draw_text_with_outline(screen, "GAME OVER", (65, 180), self.font, (255, 255, 255))
+        # Game over text in the center
+        text = "GAME OVER"
+        text_surface = self.font.render(text, True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(480 // 2, 240))
+        self.draw_text_with_outline(screen, text, (text_rect.x, text_rect.y), self.font, (255, 255, 255))
 
+        # after 2 seconds the buttons apear
         if self.show_options:
             for i, rect in enumerate(self.button_rects):
                 color = (255, 255, 255) if i == self.selected else (0, 0, 0)

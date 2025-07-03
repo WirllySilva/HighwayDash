@@ -35,7 +35,7 @@ class GameState:
         # Load and play engine sound
         self.engine_sound = pygame.mixer.Sound("assets/sounds/car-engine.ogg")
         self.engine_sound.set_volume(0.6)
-        self.engine_sound.play(-1)  # loop forever
+        self.engine_channel = self.engine_sound.play(-1)  # loop forever
 
         # Font for HUD
         self.font = pygame.font.Font("assets/fonts/PressStart2P-Regular.ttf", 14)

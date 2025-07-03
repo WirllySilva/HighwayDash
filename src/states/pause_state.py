@@ -28,7 +28,13 @@ class PauseState:
 
         self.option_sound = pygame.mixer.Sound("assets/sounds/menubutton-option.mp3")
         self.selection_sound = pygame.mixer.Sound("assets/sounds/button-selection.mp3")
-        self.resume_sound = pygame.mixer.Sound("assets/sounds/starting-sound.mp3")
+        self.restart_sound = pygame.mixer.Sound("assets/sounds/starting-sound.mp3")
+
+        # Stop all sounds when the game is paused
+        pygame.mixer.music.pause()
+        if hasattr(previous_state, "engine_channel"):
+            previous_state.engine_channel.pause()
+
 
     def handle_events(self, events):
         for event in events:
@@ -49,10 +55,12 @@ class PauseState:
                     self.selection_sound.play()
                     selected = self.options[self.selected_index]
                     if selected == "RESUME":
-                        self.resume_sound.play()
+                        pygame.mixer.music.unpause()
+                        if hasattr(self.previous_state, "engine_channel"):
+                            self.previous_state.engine_channel.unpause()
                         self.game.change_state(self.previous_state)
                     elif selected == "RESTART":
-                        self.resume_sound.play()
+                        self.restart_sound.play()
                         self.game.change_state(GameState(self.game, self.previous_state.game_mode))
                     elif selected == "BACK TO MENU":
                         self.game.change_state(MenuState(self.game))

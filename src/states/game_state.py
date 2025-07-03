@@ -50,11 +50,10 @@ class GameState:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                # Stop engine sound before returning
-                self.engine_sound.stop()
-                from states.menu_state import MenuState
-                self.game.change_state(MenuState(self.game))
+            elif event.type == pygame.KEYDOWN:
+                if event.key in [pygame.K_ESCAPE, pygame.K_SPACE]:
+                    from states.pause_state import PauseState
+                    self.game.change_state(PauseState(self.game, self))
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:

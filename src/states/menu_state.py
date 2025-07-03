@@ -79,13 +79,20 @@ class MenuState:
 
                 elif event.key == pygame.K_RETURN:
                     selected_option = self.buttons[self.selected_index]
-                    self.event_manager.notify("SELECTION")
+                    if self.selected_index != 1:
+                        self.event_manager.notify("SELECTION")
 
                     if selected_option == "START GAME":
                         self.event_manager.notify("START_GAME")
                         from states.game_state import GameState
                         game_mode = self.modes[self.selected_mode_index]
                         self.game.change_state(GameState(self.game, game_mode))
+
+                    elif self.selected_index == 1:  # CHOOSE MODE
+                        # Toggle mode with Enter
+                        self.selected_mode_index = (self.selected_mode_index + 1) % len(self.modes)
+                        self.update_mode_text()
+                        self.event_manager.notify("NAVIGATION")
 
                     elif selected_option.startswith("EXIT"):
                         pygame.quit()

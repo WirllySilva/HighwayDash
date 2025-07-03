@@ -1,5 +1,7 @@
 import pygame
 from entities.car import Car
+from entities.obstacle import Obstacle
+from entities.enemy_vehicle import EnemyVehicle
 import random
 
 class GameState:
@@ -45,6 +47,16 @@ class GameState:
         self.km_per_frame = 0.05  # Adjust based on desired rate
         self.last_milestone = 0
 
+        self.obstacles = []
+        self.enemy_vehicles = []
+        self.spawn_timer = 0
+        self.spawn_interval = 1500  # ms
+
+        self.lane_positions = self.get_lane_positions()
+
+    def get_lane_positions(self):
+        return [168, 239, 312]
+
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.QUIT:
@@ -89,10 +101,33 @@ class GameState:
             pygame.mixer.stop()
             self.game.change_state(GameOverState(self.game, self.game_mode))
 
+        # Update obstacles
+        for obstacle in self.obstacles[:]:
+            obstacle.update(self.scroll_speed)
+            if obstacle.is_off_screen():
+                self.obstacles.remove(obstacle)
+
+        for vehicle in self.enemy_vehicles[:]:
+            vehicle.update(self.scroll_speed)
+            if vehicle.is_off_screen():
+                self.enemy_vehicles.remove(vehicle)
+
+        # Spawning
+        self.spawn_timer += self.game.clock.get_time()
+        if self.spawn_timer > self.spawn_interval:
+            self.spawn_timer = 0
+            self.spawn_random_entity()
+
     def render(self, screen):
         screen.blit(self.current_track, (0, self.track_y - 640))
         screen.blit(self.next_track, (0, self.track_y))
         self.car.draw(screen)
+
+        for obstacle in self.obstacles:
+            obstacle.draw(screen)
+
+        for vehicle in self.enemy_vehicles:
+            vehicle.draw(screen)
 
         # HUD - show mode and distance
         mode_text = f"Mode: {self.game_mode}"
@@ -111,3 +146,24 @@ class GameState:
         # Current text
         label = font.render(text, False, text_color)
         screen.blit(label, (x, y))
+
+    def spawn_random_entity(self):
+        lane = random.choice(self.lane_positions)
+
+        if random.random() < 0.6:
+            # Spawn obstacle
+            obstacle_file = random.choice([
+                "damaged-track.png", "oil-barrel.png", "rock.png",
+                "traffic-cone.png", "traffic-easel.png"
+            ])
+            path = f"assets/images/{obstacle_file}"
+            self.obstacles.append(Obstacle(path, lane))
+        else:
+            # Spawn vehicle
+            vehicle_file = random.choice([
+                "police-car.png", "red-car.png", "white-car.png", "truck.png"
+            ])
+            is_truck = vehicle_file == "truck.png"
+            path = f"assets/images/{vehicle_file}"
+            self.enemy_vehicles.append(EnemyVehicle(path, lane, is_truck))
+

@@ -6,7 +6,7 @@ class Car:
         Represents the player's car.
         """
         self.image = pygame.image.load("assets/images/yellow-car.png").convert_alpha()
-        self.image = pygame.transform.scale(self.image, (70, 140))
+        self.image = pygame.transform.scale(self.image, (52, 105))
 
         self.rect = self.image.get_rect()
         self.rect.centerx = 240  # center of 480px screen

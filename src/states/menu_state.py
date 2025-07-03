@@ -22,8 +22,16 @@ class MenuState:
 
         self.cloud_x = 0
 
+        # Available game modes
+        self.modes = ["Endurance", "Classic"]
+        self.selected_mode_index = 0
+
         # Buttons
-        self.buttons = ["START GAME", "CHOOSE MODE", "EXIT"]
+        self.buttons = [
+            "START GAME",
+            f"CHOOSE MODE ({self.modes[self.selected_mode_index]})",
+            "EXIT"
+        ]
         self.selected_index = 0
         self.button_width = 280
         self.button_height = 60
@@ -75,15 +83,25 @@ class MenuState:
 
                     if selected_option == "START GAME":
                         self.event_manager.notify("START_GAME")
-                        self.game.change_state(GameState(self.game))
-                        # self.game.change_state(GameState(self.game))
+                        from states.game_state import GameState
+                        game_mode = self.modes[self.selected_mode_index]
+                        self.game.change_state(GameState(self.game, game_mode))
 
-                    elif selected_option == "CHOOSE MODE":
-                        print("Choose mode (not implemented)")
-
-                    elif selected_option == "EXIT":
+                    elif selected_option.startswith("EXIT"):
                         pygame.quit()
                         exit()
+
+                elif event.key in [pygame.K_LEFT, pygame.K_RIGHT]:
+                    if self.selected_index == 1:
+                        if event.key == pygame.K_RIGHT:
+                            self.selected_mode_index = (self.selected_mode_index + 1) % len(self.modes)
+                        else:
+                            self.selected_mode_index = (self.selected_mode_index - 1) % len(self.modes)
+                        self.update_mode_text()
+                        self.event_manager.notify("NAVIGATION")
+
+    def update_mode_text(self):
+        self.buttons[1] = f"CHOOSE MODE ({self.modes[self.selected_mode_index]})"
 
     def update(self):
         """
@@ -106,16 +124,25 @@ class MenuState:
 
         # Buttons
         for i, rect in enumerate(self.button_rects):
-            if i == self.selected_index:
-                pygame.draw.rect(screen, (255, 255, 255), rect, border_radius=12)  # Highlighted
+            pygame.draw.rect(screen, (255, 255, 255) if i == self.selected_index else (0, 0, 0), rect, border_radius=12)
+            pygame.draw.rect(screen, (0, 200, 0), rect, width=2, border_radius=12)
+
+            if i == 1:  # CHOOSE MODE
+                # Tittle
+                top_label = self.font.render("CHOOSE MODE", True, (0, 200, 0))
+                top_rect = top_label.get_rect(center=(rect.centerx, rect.centery - 12))
+
+                # Current mode
+                small_font = pygame.font.Font("assets/fonts/PressStart2P-Regular.ttf", 14)
+                mode_label = small_font.render(f"({self.modes[self.selected_mode_index]})", True, (0, 200, 0))
+                mode_rect = mode_label.get_rect(center=(rect.centerx, rect.centery + 12))
+
+                screen.blit(top_label, top_rect)
+                screen.blit(mode_label, mode_rect)
             else:
-                pygame.draw.rect(screen, (0, 0, 0), rect, border_radius=12)
-
-            pygame.draw.rect(screen, (0, 200, 0), rect, width=2, border_radius=12)  # Border
-
-            label = self.font.render(self.buttons[i], True, (0, 200, 0))
-            label_rect = label.get_rect(center=rect.center)
-            screen.blit(label, label_rect)
+                label = self.font.render(self.buttons[i], True, (0, 200, 0))
+                label_rect = label.get_rect(center=rect.center)
+                screen.blit(label, label_rect)
 
     # --- Event handlers for Observer ---
     def play_navigation_sound(self, _=None):

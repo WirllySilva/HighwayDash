@@ -23,11 +23,20 @@ class Car:
         elif direction == "right":
             self.rect.x += self.speed
 
-        # Keep inside screen
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > 480:
-            self.rect.right = 480
+            # Define horizontal limits of the road
+        ROAD_LEFT = 98
+        ROAD_RIGHT = 382
+        ROAD_WIDTH = ROAD_RIGHT - ROAD_LEFT  # = 284px
+        ALLOWED_OVERLAP = 2
+
+        # Clamp position: allow slight overlap for visual effect
+        min_left = ROAD_LEFT - ALLOWED_OVERLAP
+        max_right = ROAD_RIGHT + ALLOWED_OVERLAP
+
+        if self.rect.left < min_left:
+            self.rect.left = min_left
+        if self.rect.right > max_right:
+            self.rect.right = max_right
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

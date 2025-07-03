@@ -69,7 +69,7 @@ class GameState:
             self.current_track = self.next_track
             self.next_track = random.choice(self.tracks)
 
-            # Update distance
+        # Update distance
         if self.game_mode == "Endurance":
             self.distance_km += self.km_per_frame
             if int(self.distance_km) >= self.last_milestone + 20:
@@ -77,6 +77,17 @@ class GameState:
                 self.scroll_speed += 1  # Increase speed every 20km
                 # You can also increase obstacle speed here in future
 
+        ROAD_LEFT = 98
+        ROAD_RIGHT = 382
+
+        # Trigger game over if car is outside playable bounds
+        GAMEOVER_LEFT = ROAD_LEFT + 5 # 103
+        GAMEOVER_RIGHT = ROAD_RIGHT - 5 # 377
+
+        if self.car.rect.left < GAMEOVER_LEFT or self.car.rect.right > GAMEOVER_RIGHT:
+            from states.game_over_state import GameOverState
+            pygame.mixer.stop()
+            self.game.change_state(GameOverState(self.game, self.game_mode))
 
     def render(self, screen):
         screen.blit(self.current_track, (0, self.track_y - 640))

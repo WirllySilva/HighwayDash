@@ -84,9 +84,14 @@ class MenuState:
 
                     if selected_option == "START GAME":
                         self.event_manager.notify("START_GAME")
-                        from states.game_state import GameState
-                        game_mode = self.modes[self.selected_mode_index]
-                        self.game.change_state(GameState(self.game, game_mode))
+                        selected_mode = self.modes[self.selected_mode_index]
+
+                        if selected_mode == "Classic":
+                            from states.demo_notice_state import DemoNoticeState
+                            self.game.change_state(DemoNoticeState(self.game))
+                        else:
+                            from states.game_state import GameState
+                            self.game.change_state(GameState(self.game, selected_mode))
 
                     elif self.selected_index == 1:  # CHOOSE MODE
                         # Toggle mode with Enter

@@ -59,6 +59,11 @@ class MenuState:
         self.event_manager.subscribe("SELECTION", self.play_selection_sound)
         self.event_manager.subscribe("START_GAME", self.play_start_sound)
 
+        # our logo on the topscreen
+        self.logo = pygame.image.load("assets/images/highway-dash-logo.png").convert_alpha()
+        self.logo = pygame.transform.scale(self.logo, (300, 250))
+        self.logo_rect = self.logo.get_rect(center=(240, 150))
+
     def handle_events(self, events):
         """
         Handles user input for menu navigation and selection.
@@ -133,6 +138,9 @@ class MenuState:
         # Moving clouds
         screen.blit(self.cloud_img, (self.cloud_x, 0))
         screen.blit(self.cloud_img, (self.cloud_x + self.cloud_img.get_width(), 0))
+
+        # Render our logo
+        screen.blit(self.logo, self.logo_rect)
 
         # Buttons
         for i, rect in enumerate(self.button_rects):

@@ -217,7 +217,7 @@ class GameState:
             path = f"assets/images/{vehicle_file}"
             # The vehicles never have the same speed
             if len(self.enemy_vehicles) >= 2:
-                # If you already have 2 vehicles on the track, make sure the new one has a higher speed
+                # If you already have 2 vehicles on the track, here we make sure the new one has a higher speed
                 base_speeds = [v.speed for v in self.enemy_vehicles if v.lane_index is not None]
                 max_current_speed = max(base_speeds) if base_speeds else 2
                 speed = max_current_speed + 1  # new car is more fast.
@@ -226,7 +226,7 @@ class GameState:
                 speed = self.get_unique_vehicle_speed()
                 vehicle = EnemyVehicle(path, lane_x, is_truck, speed)
                 self.enemy_vehicles.append(vehicle)
-                self.lane_occupied[lane_index] = True  # mark the lane as busy lane
+                self.lane_occupied[lane_index] = True  # here it marks the lane as busy lane
                 vehicle.lane_index = lane_index  # save the used lane
 
     def trigger_explosion(self):

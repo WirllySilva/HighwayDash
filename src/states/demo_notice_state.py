@@ -62,9 +62,10 @@ class DemoNoticeState:
         if self.cloud_x <= -self.cloud_img.get_width():
             self.cloud_x = 0
 
+
     def render(self, screen):
-        screen.blit(self.bg_image, (0, 0))  # Draw background instead of white fill
-        screen.blit(self.cloud_img, (self.cloud_x, 0))
+        screen.blit(self.bg_image, (0, 0))  # Draw background like menu background
+        screen.blit(self.cloud_img, (self.cloud_x, 0)) # The moving clouds
         screen.blit(self.cloud_img, (self.cloud_x + self.cloud_img.get_width(), 0))
 
         # Render outline for messages

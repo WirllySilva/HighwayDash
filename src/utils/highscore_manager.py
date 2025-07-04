@@ -1,9 +1,7 @@
-# utils/highscore_manager.py
-
 import os
 import json
 
-HIGHSCORE_FILE = "assets/data/highscores.json"
+HIGHSCORE_FILE = "assets/data/highscores.json" # Here is where our json files going to be save.
 MAX_SCORES = 10
 
 def load_highscores():

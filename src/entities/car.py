@@ -27,7 +27,7 @@ class Car:
         elif direction == "down":
             self.rect.y += self.speed
 
-        # Horizontal clamping (pista)
+        # Horizontal clamping
         ROAD_LEFT = 98
         ROAD_RIGHT = 382
         ALLOWED_OVERLAP = 14
@@ -39,7 +39,7 @@ class Car:
         if self.rect.right > max_right:
             self.rect.right = max_right
 
-        # Vertical clamping (tela)
+        # Vertical clamping
         if self.rect.top < 0:
             self.rect.top = 0
         if self.rect.bottom > 640:

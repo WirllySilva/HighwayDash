@@ -68,7 +68,7 @@ class PauseState:
                 elif event.key in [pygame.K_ESCAPE, pygame.K_SPACE]:
                     self.resume_sound.play()
                     self.game.change_state(self.previous_state)
-
+    # No update
     def update(self):
         pass
 

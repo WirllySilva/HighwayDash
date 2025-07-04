@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="assets/images/highway-dash-logo.png" alt="Highway Dash Logo" width="200" />
+</p>
+
 # 🚗 Highway Dash
 
 **Highway Dash** is a 2D racing demo game developed using Python and Pygame.  

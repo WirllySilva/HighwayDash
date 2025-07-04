@@ -5,6 +5,10 @@
     },
     {
         "mode": "Endurance",
+        "distance": 127.3
+    },
+    {
+        "mode": "Endurance",
         "distance": 5.6
     }
 ]

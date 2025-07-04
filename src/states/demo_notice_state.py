@@ -12,6 +12,11 @@ class DemoNoticeState:
         self.bg_image = pygame.image.load("assets/images/background-menu.png").convert()
         self.bg_image = pygame.transform.scale(self.bg_image, (480, 640))
 
+        # The clouds
+        self.cloud_img = pygame.image.load("assets/images/clouds.png").convert_alpha()
+        self.cloud_x = 0
+        self.cloud_speed = 1
+
         self.options = ["BACK TO MENU", "PLAY ENDURANCE MODE"]
         self.selected = 0
 
@@ -53,11 +58,14 @@ class DemoNoticeState:
                         self.game.change_state(GameState(self.game, "Endurance"))
 
     def update(self):
-        pass
+        self.cloud_x -= self.cloud_speed
+        if self.cloud_x <= -self.cloud_img.get_width():
+            self.cloud_x = 0
 
     def render(self, screen):
-
         screen.blit(self.bg_image, (0, 0))  # Draw background instead of white fill
+        screen.blit(self.cloud_img, (self.cloud_x, 0))
+        screen.blit(self.cloud_img, (self.cloud_x + self.cloud_img.get_width(), 0))
 
         # Render outline for messages
         self.draw_text_with_outline(screen, "This mode is not available", (240, 160), self.font, (255, 255, 255))

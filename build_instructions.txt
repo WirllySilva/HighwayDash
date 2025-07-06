@@ -20,7 +20,7 @@ Navigate to the folder where your `main.py` is located:
 
 Now run:
 
-    pyinstaller --onefile --noconsole main.py
+    pyinstaller main.spec
 
 - `--onefile`: Generates a single .exe file.
 - `--noconsole`: Prevents a black terminal window from opening when the game starts.

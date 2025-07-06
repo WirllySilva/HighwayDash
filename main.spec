@@ -7,11 +7,11 @@ a = Analysis(
     pathex=['C:\\Users\\wirli\\Documents\\HighwayDash'],
     binaries=[],
     datas=[
-        ('states/*.py', 'states'),
-        ('core/*.py', 'core'),
-        ('entities/*.py', 'entities'),
-        ('utils/*.py', 'utils'),
-        ('assets/*', 'assets')
+       ('src/states/*.py', 'src/states'),
+        ('src/core/*.py', 'src/core'),
+        ('src/entities/*.py', 'src/entities'),
+        ('src/utils/*.py', 'src/utils'),
+        ('src/assets/*', 'src/assets')
 
     ],
     hiddenimports=['pygame._sdl2'],

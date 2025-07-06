@@ -1,6 +1,6 @@
 import pygame
-from states.menu_state import MenuState
-from states.game_state import GameState
+from src.states.menu_state import MenuState
+from src.states.game_state import GameState
 
 class DemoNoticeState:
     def __init__(self, game):

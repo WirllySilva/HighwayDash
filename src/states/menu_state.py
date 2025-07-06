@@ -1,6 +1,6 @@
 import pygame
-from states.game_state import GameState
-from core.event_manager import EventManager
+from src.states.game_state import GameState
+from src.core.event_manager import EventManager
 
 
 class MenuState:

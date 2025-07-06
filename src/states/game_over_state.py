@@ -1,8 +1,8 @@
 import pygame
-from states.menu_state import MenuState
-from states.game_state import GameState
-from core.event_manager import EventManager
-from utils.highscore_manager import try_save_new_score, get_highscore_list
+from src.states.menu_state import MenuState
+from src.states.game_state import GameState
+from src.core.event_manager import EventManager
+from src.utils.highscore_manager import try_save_new_score, get_highscore_list
 
 
 class GameOverState:

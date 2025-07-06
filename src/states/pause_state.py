@@ -1,7 +1,7 @@
 import pygame
-from core.event_manager import EventManager
-from states.game_state import GameState
-from states.menu_state import MenuState
+from src.core.event_manager import EventManager
+from src.states.game_state import GameState
+from src.states.menu_state import MenuState
 
 class PauseState:
     def __init__(self, game, previous_state):

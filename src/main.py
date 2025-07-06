@@ -1,5 +1,5 @@
 import pygame
-from states.menu_state import MenuState
+from src.states.menu_state import MenuState
 
 class Game:
     def __init__(self):

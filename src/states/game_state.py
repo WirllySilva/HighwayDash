@@ -1,7 +1,7 @@
 import pygame
-from entities.car import Car
-from entities.obstacle import Obstacle
-from entities.enemy_vehicle import EnemyVehicle
+from src.entities.car import Car
+from src.entities.obstacle import Obstacle
+from src.entities.enemy_vehicle import EnemyVehicle
 import random
 
 class GameState:
